@@ -1,16 +1,23 @@
 package com.iteso.test.beans;
 
-public class ItemProducts {
-    private int image;
+import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.view.View;
+
+public class ItemProducts implements Parcelable{
+    private int image, code;
     private String title, store, location, phone, description;
 
     public ItemProducts() {
-        this.image = 0;
-        this.title = "";
-        this.store = "";
-        this.location = "";
-        this.phone = "";
-        this.description = "";
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public int getImage() {
@@ -72,4 +79,44 @@ public class ItemProducts {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public ItemProducts (Parcel in){
+        image = in.readInt();
+        title = in.readString();
+        store = in.readString();
+        location = in.readString();
+        phone = in.readString();
+        code = in.readInt();
+        description = in.readString();
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel (Parcel dest, int flags){
+        dest.writeInt(image);
+        dest.writeString(title);
+        dest.writeString(store);
+        dest.writeString(location);
+        dest.writeString(phone);
+        dest.writeString(description);
+        dest.writeInt(code);
+    }
+
+    public static final Parcelable.Creator<ItemProducts> CREATOR =
+            new Parcelable.Creator<ItemProducts>() {
+        @Override
+        public ItemProducts createFromParcel(Parcel source) {
+            return new ItemProducts(source);
+        }
+
+        @Override
+        public ItemProducts[] newArray(int size) {
+            return new ItemProducts[size];
+        }
+    };
 }
