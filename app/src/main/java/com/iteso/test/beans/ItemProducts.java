@@ -103,8 +103,9 @@ public class ItemProducts implements Parcelable{
         dest.writeString(store);
         dest.writeString(location);
         dest.writeString(phone);
-        dest.writeString(description);
         dest.writeInt(code);
+        dest.writeString(description);
+
     }
 
     public static final Parcelable.Creator<ItemProducts> CREATOR =
