@@ -1,5 +1,8 @@
 package com.iteso.test;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -23,6 +26,9 @@ public class ActivityMain extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    FragmentTechnology fragmentTechnology;
+    FragmentHome fragmentHome;
+    FragmentElectronics fragmentElectronics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,6 @@ public class ActivityMain extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,6 +71,16 @@ public class ActivityMain extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==1){
+            if(requestCode== Activity.RESULT_OK){
+                fragmentTechnology.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
+
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -76,17 +91,27 @@ public class ActivityMain extends AppCompatActivity {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return new FragmentTechnology();
+                    if(fragmentTechnology == null){
+                        fragmentTechnology = new FragmentTechnology();
+                    }
+                    return fragmentTechnology;
                 case 1:
-                    return new FragmentHome();
+                    if(fragmentHome == null){
+                        fragmentHome = new FragmentHome();
+                    }
+                    return fragmentHome;
                 case 2:
-                    return new FragmentElectronics();
+                    if(fragmentElectronics == null){
+                        fragmentElectronics = new FragmentElectronics();
+                    }
+                    return fragmentElectronics;
                 default:
                    return new FragmentTechnology();
             }

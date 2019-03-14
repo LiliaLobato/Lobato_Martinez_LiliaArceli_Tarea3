@@ -1,5 +1,6 @@
 package com.iteso.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 import com.iteso.test.beans.ItemProducts;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FragmentElectronics extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<ItemProducts> myDataSet = new ArrayList<ItemProducts>();
 
     public FragmentElectronics() {
     }
@@ -29,8 +32,6 @@ public class FragmentElectronics extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
-        ArrayList<ItemProducts> myDataSet = new ArrayList<ItemProducts>();
         ItemProducts micro = new ItemProducts();
         ItemProducts refrigerator = new ItemProducts();
 
@@ -54,5 +55,21 @@ public class FragmentElectronics extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ItemProducts itemProduct = data.getParcelableExtra("ITEM");
+        Iterator<ItemProducts> iterator = myDataSet.iterator();
+        int position = 0;
+        while(iterator.hasNext()){
+            ItemProducts item = iterator.next();
+            if(item.getCode() == itemProduct.getCode()){
+                myDataSet.set(position, itemProduct);
+                break;
+            }
+            position++;
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }

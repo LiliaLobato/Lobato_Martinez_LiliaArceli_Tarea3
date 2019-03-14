@@ -1,5 +1,6 @@
 package com.iteso.test;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -111,6 +112,16 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
                 context.startActivity(intent);
             }
         });
+
+        holder.mEventLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v){
+                Intent intent = new Intent(context, Activity_Detail.class);
+                intent.putExtra("ITEM", mDataSet.get(position));
+                ((ActivityMain)context).startActivityForResult(intent,1);
+            }
+        });
+
     }
 
     @Override
@@ -118,3 +129,5 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
         return mDataSet.size();
     }
 }
+
+
